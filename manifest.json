@@ -1,10 +1,10 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Speech to Text",
   "version": "1.0",
   "description": "Alt+Shift+X for voice input, replacing all text, or Alt+Shift+W to insert at cursor location. Automatic capitalization and punctuation.",
-  "permissions": ["activeTab", "tabs"],
-  "browser_action": {
+  "permissions": ["activeTab", "scripting"],
+  "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icon16.png",
@@ -13,8 +13,7 @@
     }
   },
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
@@ -28,14 +27,14 @@
         "default": "Alt+Shift+X",
         "mac": "Alt+Shift+X"
       },
-      "description": "Start/Toggle speech recognition"
+      "description": "Toggle speech recognition"
     },
     "append_text": {
       "suggested_key": {
         "default": "Alt+Shift+W",
         "mac": "Alt+Shift+W"
       },
-      "description": "Append speech recognition text to current cursor location"
+      "description": "Append speech recognition text"
     }
   }
 }

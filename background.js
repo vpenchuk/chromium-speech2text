@@ -1,8 +1,14 @@
 function executeSpeechRecognition(action) {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.tabs.executeScript(tabs[0].id, { file: "content.js" }, () => {
-      chrome.tabs.sendMessage(tabs[0].id, { action });
-    });
+    chrome.scripting.executeScript(
+      {
+        target: { tabId: tabs[0].id },
+        files: ["content.js"],
+      },
+      () => {
+        chrome.tabs.sendMessage(tabs[0].id, { action });
+      }
+    );
   });
 }
 
@@ -14,6 +20,6 @@ chrome.commands.onCommand.addListener((command) => {
   }
 });
 
-chrome.browserAction.onClicked.addListener((tab) => {
+chrome.action.onClicked.addListener((tab) => {
   executeSpeechRecognition("toggleSpeechRecognition");
 });
