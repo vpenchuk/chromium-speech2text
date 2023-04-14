@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Speech to Text",
   "version": "1.0",
-  "description": "Speak text in any text field on the current page using Shift+Alt+X to start/stop",
+  "description": "Alt+Shift+X for voice input, replacing all text in the selected text box, or Alt+Shift+W to insert text at cursor location. Automatically capitalizes and adds punctuation.",
   "permissions": ["activeTab", "tabs"],
   "browser_action": {
     "default_popup": "popup.html",
@@ -28,7 +28,14 @@
         "default": "Alt+Shift+X",
         "mac": "Alt+Shift+X"
       },
-      "description": "Start speech recognition"
+      "description": "Start/Toggle speech recognition"
+    },
+    "append_text": {
+      "suggested_key": {
+        "default": "Alt+Shift+W",
+        "mac": "Alt+Shift+W"
+      },
+      "description": "Append speech recognition text to current cursor location"
     }
   }
 }

@@ -1,0 +1,3 @@
+This plugin is brought to you by GPT-4. Yes, 100% of the code is written by GPT-4 using OpenAI Playground Chat. You can view the GPT-4-generated message history in the history_*.json file.
+
+After installing the plugin in your Chromium browser, press Alt+Shift+X in a text box to record your voice. Use Alt+Shift+W to insert text at the cursor location. The Speech-to-Text library will auto-capitalize and punctuate the text.
