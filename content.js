@@ -1,3 +1,23 @@
+let recognition;
+let isListening = false;
+
+function stopSpeechRecognition() {
+  if (recognition) {
+    setTimeout(() => {
+      recognition.stop();
+      isListening = false;
+    }, 300);
+  }
+}
+
+function toggleSpeechRecognition() {
+  if (isListening) {
+    stopSpeechRecognition();
+  } else {
+    startSpeechRecognition();
+  }
+}
+
 function handleSpeechRecognition(result) {
   const text = result.results[0][0].transcript;
   const activeElement = document.activeElement;
@@ -7,14 +27,11 @@ function handleSpeechRecognition(result) {
     if (tagName === "input" || tagName === "textarea") {
       activeElement.value = text;
 
-      // Trigger an input event to notify the page about the change
       const event = new Event('input', { bubbles: true });
       activeElement.dispatchEvent(event);
     } else {
-      // Handle custom div elements with contenteditable attribute
       activeElement.textContent = text;
 
-      // Trigger an input event for contenteditable div
       const event = new Event('input', { bubbles: true });
       activeElement.dispatchEvent(event);
     }
@@ -26,20 +43,29 @@ function handleSpeechRecognition(result) {
 function startSpeechRecognition() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (SpeechRecognition) {
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-    recognition.addEventListener("result", handleSpeechRecognition);
+    if (!recognition) {
+      recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.addEventListener("result", handleSpeechRecognition);
+      recognition.addEventListener("end", () => {
+        isListening = false;
+      });
+      recognition.addEventListener("error", (event) => {
+        console.error("Speech recognition error:", event.error);
+        isListening = false;
+      });
+    }
     recognition.start();
+    isListening = true;
   } else {
     console.log("Speech recognition not supported");
   }
 }
 
-// Listen for messages from the popup script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "startSpeechRecognition") {
-    startSpeechRecognition();
+  if (request.action === "toggleSpeechRecognition") {
+    toggleSpeechRecognition();
   }
 });

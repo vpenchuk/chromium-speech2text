@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Speech to Text",
   "version": "1.0",
-  "description": "Use speech to text to interact with OpenAI GPT or input text in any text field on the current page",
+  "description": "Speak text in any text field on the current page using Shift+Alt+X to start/stop",
   "permissions": ["activeTab", "tabs"],
   "browser_action": {
     "default_popup": "popup.html",
